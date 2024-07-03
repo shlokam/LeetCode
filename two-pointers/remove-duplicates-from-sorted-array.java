@@ -5,10 +5,6 @@ class Solution {
         if(n==1)
             return 1;
 
-        else if(n==2){
-
-        }
-
         int i=0 , j =1;
 
         for(;j<n;){
