@@ -1,40 +1,43 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        int i=0,j=nums.length-1;
+        Map<Integer,Integer> count = new HashMap<>();
 
-      int[] newArray = new int[nums.length];
-        
-        // Copy values from existing array to the new array
-        for (i = 0; i < nums.length; i++) {
-            newArray[i] = nums[i];
+        for(int i=0;i<nums.length;++i){
+            if(count.containsKey(nums[i]))
+                count.put(nums[i],count.get(nums[i])+1);
+            else
+                count.put(nums[i],1);
         }
-        Arrays.sort(nums);
 
-        int ans1=-1,ans2=-1,t1=-1,t2=-1;
-        i=0;j=nums.length-1;
+   
+        int ans1=0,ans2=0,ele,ind1,ind2;
+        ind1 = -1; ind2 = -1;
 
-        while(i<j){
-            if(nums[i] + nums[j] == target){
-                t1 = nums[i];
-                t2 = nums[j];
-                break;
+        for(int i=0;i<nums.length;++i){
+            ele = target - nums[i];
+            if(count.containsKey(ele)){
+                if(ele != nums[i]){
+                    ans1 = nums[i];
+                    ans2 = ele;
+                    break;
+                }else if(count.get(nums[i])>1){
+                    ans1 = nums[i];
+                    ans2 = nums[i];
+                    break;
                 }
-            else if(nums[i] + nums[j] > target)
-                --j;
-            else 
-                ++i;
+            }
         }
 
-        for(i=0;i<newArray.length;++i){
-            if(newArray[i] == t1 && ans1==-1)
-                ans1 = i;
-            else if(newArray[i] == t2 && ans2==-1)
-                ans2=i;
+        for(int i=0;i<nums.length;++i){
+            if(ind1 ==-1 && ans1 == nums[i])
+                ind1 = i;
+            else if(ind2 ==-1 && ans2 == nums[i])
+                ind2 = i;
+
+            if(ind1 != -1 && ind2 != -1)
+                break;
         }
 
-        if(ans1==-1 || ans2==-1)
-            return new int[]{};
-
-        return new int[]{ans1,ans2};
+        return new int[]{ind1,ind2};
     }
 }
